@@ -22,6 +22,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         if (preference instanceof ListPreference) {
             preference.setSummary(newValue.toString());
+            finish();
         }
         return true;
     }

@@ -8,10 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 import java.util.ArrayList;
 
+import apps.orchotech.com.popularmovies.BaseActivity;
 import apps.orchotech.com.popularmovies.R;
 import apps.orchotech.com.popularmovies.adapters.PosterAdapter;
 import apps.orchotech.com.popularmovies.network.AllMoviesBean;
@@ -21,7 +23,7 @@ import apps.orchotech.com.popularmovies.network.VolleyRequest;
 import apps.orchotech.com.popularmovies.utils.AppConstants;
 import apps.orchotech.com.popularmovies.utils.AppPreferences;
 
-public class MainActivity extends AppCompatActivity implements MyConnection.IMyConnection {
+public class MainActivity extends BaseActivity implements MyConnection.IMyConnection {
     GridView gridView;
 
     @Override
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements MyConnection.IMyC
 
     @Override
     public void onSuccess(final String response, int requestId) {
+        hideProgress();
         Parser parser = new Parser();
         final ArrayList<AllMoviesBean> arrayList = parser.parseAllMovies(response);
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements MyConnection.IMyC
 
     @Override
     public void onFailure(String error, int requestId) {
-
+        hideProgress();
     }
 
     @Override
@@ -85,5 +88,6 @@ public class MainActivity extends AppCompatActivity implements MyConnection.IMyC
 
         String url = String.format(AppConstants.REQUEST_URL, appPreferences.getSettingsSP(MainActivity.this));
         VolleyRequest.sendRequest(this, url, this, AppConstants.POSTER_REQUEST_ID);
+        showProgress();
     }
 }

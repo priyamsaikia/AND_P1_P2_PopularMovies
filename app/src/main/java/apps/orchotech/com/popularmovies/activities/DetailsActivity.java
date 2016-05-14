@@ -1,14 +1,12 @@
 package apps.orchotech.com.popularmovies.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
+import apps.orchotech.com.popularmovies.BaseActivity;
 import apps.orchotech.com.popularmovies.R;
 import apps.orchotech.com.popularmovies.network.ImageLoader;
 import apps.orchotech.com.popularmovies.network.MyConnection;
@@ -20,7 +18,7 @@ import apps.orchotech.com.popularmovies.utils.AppConstants;
 /**
  * Created by PriyamSaikia on 15-05-2016.
  */
-public class DetailsActivity extends AppCompatActivity implements MyConnection.IMyConnection {
+public class DetailsActivity extends BaseActivity implements MyConnection.IMyConnection {
     String movieId;
     private TextView tv_overview, tv_movie_name, tv_release_date, tv_duration, tv_rating;
     ImageView imv_poster;
@@ -44,19 +42,36 @@ public class DetailsActivity extends AppCompatActivity implements MyConnection.I
         getMovieDetails(movieId);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        return super.onOptionsItemSelected(item);
+    }
+
     private void getMovieDetails(String movieId) {
         String url = String.format(AppConstants.MOVIE_DETAIL_LINK, movieId);
         VolleyRequest.sendRequest(this, url, this, AppConstants.DETAIL_REQUEST_ID);
+        showProgress();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (movieId != null)
+            getMovieDetails(movieId);
+
     }
 
     @Override
     public void onSuccess(String response, int requestId) {
+        hideProgress();
         Parser parser = new Parser();
         PopularMoviesBean details = parser.parseMovieDetails(response);
         String[] formattedDate = details.getRelease_date().split("-");
-        tv_duration.setText(details.getRuntime()+" mins");
+        tv_duration.setText(details.getRuntime() + " mins");
         tv_movie_name.setText(details.getTitle());
-        tv_rating.setText(details.getVote_average()+"/10");
+        tv_rating.setText(details.getVote_average() + "/10");
         tv_overview.setText(details.getOverview());
         tv_release_date.setText(formattedDate[0]);
         ImageLoader imageLoader = new ImageLoader();
@@ -65,20 +80,6 @@ public class DetailsActivity extends AppCompatActivity implements MyConnection.I
 
     @Override
     public void onFailure(String error, int requestId) {
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (movieId != null)
-            getMovieDetails(movieId);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
+        hideProgress();
     }
 }
