@@ -26,4 +26,13 @@ public class AppPreferences {
             else return "popular";
         } else return "popular";
     }
+
+    public void setFavourite(Context context, String fav) {
+        fav += "," + getFavourites(context);
+        getSP(context).edit().putString(AppConstants.PREF_FAVOURITES, fav).commit();
+    }
+
+    public String getFavourites(Context context) {
+        return getSP(context).getString(AppConstants.PREF_FAVOURITES, "");
+    }
 }

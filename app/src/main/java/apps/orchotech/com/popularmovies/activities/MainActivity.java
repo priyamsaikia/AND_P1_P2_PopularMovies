@@ -1,30 +1,20 @@
 package apps.orchotech.com.popularmovies.activities;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-
-import java.util.ArrayList;
 
 import apps.orchotech.com.popularmovies.BaseActivity;
 import apps.orchotech.com.popularmovies.R;
-import apps.orchotech.com.popularmovies.adapters.PosterAdapter;
-import apps.orchotech.com.popularmovies.network.AllMoviesBean;
-import apps.orchotech.com.popularmovies.network.MyConnection;
-import apps.orchotech.com.popularmovies.network.Parser;
-import apps.orchotech.com.popularmovies.network.VolleyRequest;
+import apps.orchotech.com.popularmovies.fragments.DetailFragment;
+import apps.orchotech.com.popularmovies.fragments.MasterFragment;
 import apps.orchotech.com.popularmovies.utils.AppConstants;
-import apps.orchotech.com.popularmovies.utils.AppPreferences;
 
-public class MainActivity extends BaseActivity implements MyConnection.IMyConnection {
-    GridView gridView;
+public class MainActivity extends BaseActivity implements MasterFragment.CallBack {
+    Boolean mIsTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +22,12 @@ public class MainActivity extends BaseActivity implements MyConnection.IMyConnec
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        gridView = (GridView) findViewById(R.id.gridview);
+        if (findViewById(R.id.fragment_detail) != null) {
+            mIsTwoPane = true;
+
+        } else {
+            mIsTwoPane = false;
+        }
     }
 
     @Override
@@ -59,35 +54,25 @@ public class MainActivity extends BaseActivity implements MyConnection.IMyConnec
     }
 
     @Override
-    public void onSuccess(final String response, int requestId) {
-        hideProgress();
-        Parser parser = new Parser();
-        final ArrayList<AllMoviesBean> arrayList = parser.parseAllMovies(response);
-
-        gridView.setAdapter(new PosterAdapter(this, arrayList));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                intent.putExtra(AppConstants.INTENT_MOVIE_DETAIL, arrayList.get(position).getId());
-                startActivity(intent);
-            }
-        });
-
-    }
-
-    @Override
-    public void onFailure(String error, int requestId) {
-        hideProgress();
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
-        AppPreferences appPreferences = new AppPreferences();
+    }
 
-        String url = String.format(AppConstants.REQUEST_URL, appPreferences.getSettingsSP(MainActivity.this));
-        VolleyRequest.sendRequest(this, url, this, AppConstants.POSTER_REQUEST_ID);
-        showProgress();
+    @Override
+    public void onItemSelected(int position, String movieId) {
+        if (mIsTwoPane) {
+            Bundle b = new Bundle();
+            b.putString(AppConstants.MOVIE_ID, movieId);
+            DetailFragment f = new DetailFragment();
+            f.setArguments(b);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_detail, f,AppConstants.TAG);
+            fragmentTransaction.commit();
+        } else {
+            //startActivity with data
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra(AppConstants.MOVIE_ID, movieId);
+            startActivity(intent);
+        }
     }
 }
