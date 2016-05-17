@@ -16,6 +16,7 @@ import apps.orchotech.com.popularmovies.utils.AppConstants;
 public class DetailsActivity extends BaseActivity {
     String movieId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

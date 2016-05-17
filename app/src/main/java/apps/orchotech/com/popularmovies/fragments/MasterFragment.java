@@ -61,10 +61,7 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-//                intent.putExtra(AppConstants.MOVIE_ID, arrayList.get(position).getId());
-                //startActivity(intent);
-                ((CallBack)getActivity()).onItemSelected(position,arrayList.get(position).getId());
+                ((CallBack) getActivity()).onItemSelected(position, arrayList.get(position).getId());
             }
         });
 
@@ -76,6 +73,6 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
     }
 
     public interface CallBack {
-        void onItemSelected(int position,String movieId);
+        void onItemSelected(int position, String movieId);
     }
 }

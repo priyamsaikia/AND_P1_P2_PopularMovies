@@ -24,7 +24,6 @@ public class MainActivity extends BaseActivity implements MasterFragment.CallBac
         setSupportActionBar(toolbar);
         if (findViewById(R.id.fragment_detail) != null) {
             mIsTwoPane = true;
-
         } else {
             mIsTwoPane = false;
         }
@@ -49,6 +48,10 @@ public class MainActivity extends BaseActivity implements MasterFragment.CallBac
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
+        if (id == R.id.menu_favourites) {
+            startActivity(new Intent(this, FavouritesActivity.class));
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -66,7 +69,7 @@ public class MainActivity extends BaseActivity implements MasterFragment.CallBac
             DetailFragment f = new DetailFragment();
             f.setArguments(b);
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_detail, f,AppConstants.TAG);
+            fragmentTransaction.replace(R.id.fragment_detail, f, AppConstants.TAG);
             fragmentTransaction.commit();
         } else {
             //startActivity with data

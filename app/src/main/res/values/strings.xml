@@ -5,6 +5,12 @@
     <string name="settings_option_one">Popular Movies</string>
     <string name="settings_option_two">Top Rated</string>
     <string name="settings_title">Sort By</string>
+    <string name="share_trailer">Share Trailer</string>
+    <string name="show_favourites">Show Favourites</string>
+    <string name="favourites">Favourite</string>
+    <string name="try_again">Please try again</string>
+    <string name="already_favourite">It is already added to your favourites</string>
+    <string name="added_favourite">Added to your favourites!</string>
 
     <array name="settings_array_options">
         <item>@string/settings_option_one</item>

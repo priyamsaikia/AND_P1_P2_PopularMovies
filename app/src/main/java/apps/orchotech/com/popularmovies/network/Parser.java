@@ -63,4 +63,57 @@ public class Parser {
         }
         return allMoviesBeen;
     }
+
+    public ArrayList<ReviewsBean> parseAllReviews(String results) {
+
+        ArrayList<ReviewsBean> reviewsBeen = null;
+        try {
+            JSONObject object = new JSONObject(results);
+            JSONArray jsonArray = object.getJSONArray("results");
+
+            reviewsBeen = new ArrayList<ReviewsBean>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                String id = obj.getString("id");
+                String author = obj.getString("author");
+                String content = obj.getString("content");
+
+                ReviewsBean bean = new ReviewsBean();
+                bean.setId(id);
+                bean.setAuthor(author);
+                bean.setContent(content);
+
+                reviewsBeen.add(bean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return reviewsBeen;
+    }
+
+    public ArrayList<TrailerBean> parseAllTrailers(String results) {
+        ArrayList<TrailerBean> trailerBeans = null;
+        try {
+            JSONArray jsonArray = new JSONArray(results);
+            trailerBeans = new ArrayList<TrailerBean>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                String id = obj.getString("id");
+                String trailer_name = obj.getString("name");
+                String key = obj.getString("key");
+                String site = obj.getString("site");
+
+
+                TrailerBean trailerBean = new TrailerBean();
+                trailerBean.setId(id);
+                trailerBean.setName(trailer_name);
+                trailerBean.setKey(key);
+                trailerBean.setSite(site);
+                trailerBeans.add(trailerBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return trailerBeans;
+    }
 }
