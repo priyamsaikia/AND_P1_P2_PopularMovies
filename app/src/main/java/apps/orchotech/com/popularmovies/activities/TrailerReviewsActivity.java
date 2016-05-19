@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import apps.orchotech.com.popularmovies.R;
-import apps.orchotech.com.popularmovies.adapters.StaggeredListAdapter;
+import apps.orchotech.com.popularmovies.adapters.GridLayoutAdapter;
 import apps.orchotech.com.popularmovies.adapters.TrailerAdapter;
 import apps.orchotech.com.popularmovies.network.MyConnection;
 import apps.orchotech.com.popularmovies.network.Parser;
@@ -81,8 +81,8 @@ public class TrailerReviewsActivity extends AppCompatActivity implements MyConne
         }
         if (requestId == AppConstants.REVIEW_REQUEST_ID) {
             ArrayList<ReviewsBean> reviewList = parser.parseAllReviews(response);
-            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-            recyclerView.setAdapter(new StaggeredListAdapter(TrailerReviewsActivity.this,reviewList));
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+            recyclerView.setAdapter(new GridLayoutAdapter(TrailerReviewsActivity.this,reviewList,false));
         }
     }
 

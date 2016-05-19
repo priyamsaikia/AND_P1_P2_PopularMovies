@@ -9,13 +9,12 @@ import android.view.MenuItem;
 
 import apps.orchotech.com.popularmovies.BaseActivity;
 import apps.orchotech.com.popularmovies.R;
-import apps.orchotech.com.popularmovies.adapters.StaggeredListAdapter;
+import apps.orchotech.com.popularmovies.adapters.GridLayoutAdapter;
 import apps.orchotech.com.popularmovies.fragments.DetailFragment;
-import apps.orchotech.com.popularmovies.fragments.MasterFragment;
 import apps.orchotech.com.popularmovies.utils.AppConstants;
 
-public class MainActivity extends BaseActivity implements StaggeredListAdapter.CallBack {
-    Boolean mIsTwoPane;
+public class MainActivity extends BaseActivity implements GridLayoutAdapter.CallBack {
+    public Boolean mIsTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +61,7 @@ public class MainActivity extends BaseActivity implements StaggeredListAdapter.C
         if (mIsTwoPane) {
             Bundle b = new Bundle();
             b.putString(AppConstants.MOVIE_ID, movieId);
+            b.putBoolean(AppConstants.IS_TWO_PANE, mIsTwoPane);
             DetailFragment f = new DetailFragment();
             f.setArguments(b);
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -70,6 +70,7 @@ public class MainActivity extends BaseActivity implements StaggeredListAdapter.C
         } else {
             //startActivity with data
             Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra(AppConstants.IS_TWO_PANE, mIsTwoPane);
             intent.putExtra(AppConstants.MOVIE_ID, movieId);
             startActivity(intent);
         }

@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -75,6 +76,7 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
     private PopularMoviesBean details;
     String mFirstVideoShareLink;
     String mMovieName;
+    private String mIsTwoPane;
 
     @Nullable
     @Override
@@ -82,6 +84,7 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
         if (getArguments() != null)
             mMovieId = getArguments().getString(AppConstants.MOVIE_ID);
         else mMovieId = "";
+        mIsTwoPane=getArguments().getString(AppConstants.IS_TWO_PANE);
         View view = inflater.inflate(R.layout.detail_layout, container, false);
         ButterKnife.bind(this, view);
 
@@ -132,8 +135,10 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
             contentValues.put(MoviesContract.FavouritesEntry.COLUMN_POSTER_LINK, details.getPoster_path());
             contentValues.put(MoviesContract.FavouritesEntry.COLUMN_BANNER_LINK, details.getBackdrop_path());
 
-            long insertResult = sqLiteDatabase.insert(MoviesContract.FavouritesEntry.TABLE_NAME, null, contentValues);
-            if (insertResult == -1)
+            Uri result = getActivity().getContentResolver().insert(MoviesContract.FavouritesEntry.CONTENT_URI_FAVOURITES_ENTRY, contentValues);
+
+//            long insertResult = sqLiteDatabase.insert(MoviesContract.FavouritesEntry.TABLE_NAME, null, contentValues);
+            if (result == null)
                 Toast.makeText(getActivity(), R.string.already_favourite, Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(getActivity(), R.string.added_favourite, Toast.LENGTH_SHORT).show();
@@ -179,11 +184,10 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
             return;
         Parser parser = new Parser();
         if (requestId == AppConstants.DETAIL_REQUEST_ID) {
-
-            PopularMoviesBean details = parser.parseMovieDetails(response);
+            details = parser.parseMovieDetails(response);
             setData(details);
         }
-        if (requestId == AppConstants.TRAILER_REQUEST_ID) {
+        else if (requestId == AppConstants.TRAILER_REQUEST_ID) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 ArrayList<TrailerBean> trailerList = parser.parseAllTrailers(jsonObject.getString("results"));
@@ -204,7 +208,7 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
                 e.printStackTrace();
             }
         }
-        if (requestId == AppConstants.REVIEW_REQUEST_ID) {
+        else if (requestId == AppConstants.REVIEW_REQUEST_ID) {
             //todo: check adding multiple views
             ArrayList<ReviewsBean> reviewList = parser.parseAllReviews(response);
             if (reviewList.size() > 0) {

@@ -34,6 +34,7 @@ public class DetailsActivity extends BaseActivity {
 
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.fragment_detail, f);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
     }

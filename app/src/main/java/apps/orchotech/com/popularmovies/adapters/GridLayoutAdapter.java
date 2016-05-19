@@ -3,6 +3,7 @@ package apps.orchotech.com.popularmovies.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,31 +26,35 @@ import butterknife.ButterKnife;
 /**
  * Created by PriyamSaikia on 17-05-2016.
  */
-public class StaggeredListAdapter extends RecyclerView.Adapter<StaggeredListAdapter.FavouritesListViewHolder> {
+public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.FavouritesListViewHolder> {
+    private static final String TAG = GridLayoutAdapter.class.getSimpleName();
     Context mContext;
     ArrayList<?> mArrayList;
     Object mObj;
 
-    public StaggeredListAdapter(Context context, ArrayList<?> arrayList) {
+    public GridLayoutAdapter(Context context, ArrayList<?> arrayList, boolean isTwoPane) {
         mContext = context;
         mArrayList = arrayList;
         mObj = arrayList.get(0);
         //todo: check
         //selecting the first item at initialisation time.
-        if (mObj instanceof PopularMoviesBean)
-            ((CallBack) mContext).onItemSelected(0, ((PopularMoviesBean) mObj).getId());
-
+        if (isTwoPane) {
+            if (mObj instanceof AllMoviesBean)
+                ((CallBack) mContext).onItemSelected(0, ((AllMoviesBean) mObj).getId());
+        }
     }
 
     @Override
     public FavouritesListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_trailer_list, null);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.staggered_item_trailer_list, null);
+        Log.i(TAG,"onCreateFavViewHolder");
         return new FavouritesListViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(FavouritesListViewHolder holder, final int position) {
         if (mObj instanceof PopularMoviesBean) {
+            Log.i(TAG,"instance on PopularMoviesBean");
             final PopularMoviesBean item = (PopularMoviesBean) (mArrayList.get(position));
             ImageLoader imageLoader = new ImageLoader();
             imageLoader.loadImage(mContext, item.getPoster_path(), holder.imv_item_trailer);
@@ -63,10 +68,12 @@ public class StaggeredListAdapter extends RecyclerView.Adapter<StaggeredListAdap
                 }
             });
         } else if (mObj instanceof ReviewsBean) {
+            Log.i(TAG,"instance of ReviewsBean");
             ReviewsBean reviewsBean = (ReviewsBean) mArrayList.get(position);
             holder.tv_trailer_name.setText(reviewsBean.getContent());
             holder.imv_item_trailer.setVisibility(View.GONE);
         } else if (mObj instanceof AllMoviesBean) {
+            Log.i(TAG,"instance of AllMoviesBean");
             final AllMoviesBean bean = (AllMoviesBean) mArrayList.get(position);
             ImageLoader imageLoader = new ImageLoader();
             imageLoader.loadImage(mContext, bean.getPoster_link(), holder.imv_item_trailer);
@@ -77,6 +84,8 @@ public class StaggeredListAdapter extends RecyclerView.Adapter<StaggeredListAdap
                     ((CallBack) mContext).onItemSelected(position, bean.getId());
                 }
             });
+        }else{
+            Log.i(TAG,"instance of no bean");
         }
     }
 

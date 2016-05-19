@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:padding="@dimen/basePadding"
             android:src="@mipmap/ic_play_trailer"
             android:textSize="@dimen/bodyText" />
@@ -26,10 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/imv_item_trailer"
-            android:background="#000000FF"
-            android:layout_alignParentBottom="true"
-            android:maxLength="10"
             android:layout_centerHorizontal="true"
+            android:background="#000000FF"
+            android:gravity="center_horizontal|bottom"
+            android:padding="8dp"
             android:textColor="@android:color/black" />
     </RelativeLayout>
 </LinearLayout>

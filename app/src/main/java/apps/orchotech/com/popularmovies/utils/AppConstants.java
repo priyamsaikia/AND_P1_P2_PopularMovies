@@ -13,6 +13,7 @@ public class AppConstants {
     public static final int REVIEW_REQUEST_ID = 003;
     public static final String INTENT_LIST_TYPE = "type_of_list";
     public static final String TYPE_TRAILERS = "trailers";
+    public static final String IS_TWO_PANE = "is_two_pane";
     public static String YOUTUBE_LINK = "http://www.youtube.com/watch?v=%s";
     public static final String TRAILER_SHARE_LINK = "Hey! Check out the trailer of %s on " + YOUTUBE_LINK;
     public static final String SETTINGS_KEY = "SortBy";

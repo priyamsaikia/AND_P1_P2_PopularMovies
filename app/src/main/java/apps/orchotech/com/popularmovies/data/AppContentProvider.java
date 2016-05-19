@@ -140,7 +140,8 @@ public class AppContentProvider extends ContentProvider {
                 if (_id > 0) {
                     returnUri = MoviesContract.MoviesEntry.buildMovieListUri(_id);
                 } else {
-                    throw new android.database.SQLException("Failed to insert row into: " + uri);
+//                    throw new android.database.SQLException("Failed to insert row into: " + uri);
+                    return null;
                 }
             }
             break;
@@ -150,7 +151,8 @@ public class AppContentProvider extends ContentProvider {
                 if (_id > 0) {
                     returnUri = MoviesContract.FavouritesEntry.buildFavouritesUri(_id);
                 } else {
-                    throw new android.database.SQLException("Failed to insert row into: " + uri);
+//                    throw new android.database.SQLException("Failed to insert row into: " + uri);
+                    return null;
                 }
                 break;
             }
