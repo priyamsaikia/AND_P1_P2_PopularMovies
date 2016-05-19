@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/imv_detail"
-            android:layout_width="125dp"
-            android:layout_height="170dp"
+            android:layout_width="@dimen/imv_H"
+            android:layout_height="@dimen/imv_W"
             android:layout_marginLeft="48dp"
             android:layout_marginTop="100dp"
             android:scaleType="fitXY" />
@@ -45,12 +45,14 @@
             android:padding="8dp">
 
             <TextView
+                android:textColor="@color/textColor"
                 android:id="@+id/tv_release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp" />
 
             <TextView
+                android:textColor="@color/textColor"
                 android:id="@+id/tv_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,6 +60,7 @@
                 android:textStyle="italic" />
 
             <TextView
+                android:textColor="@color/textColor"
                 android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,7 +74,7 @@
             android:layout_below="@id/ll_detail_text"
             android:layout_centerHorizontal="true"
             android:padding="@dimen/basePadding"
-            android:textColor="@android:color/white"
+            android:textColor="@color/textColor"
             android:textSize="@dimen/bodyText" />
 
         <ImageView
@@ -90,6 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_fav"
+            android:textSize="@dimen/bodyText"
+            android:textColor="@color/textColor"
             android:gravity="center"
             android:minHeight="@dimen/minOverviewHeight"
             android:padding="@dimen/basePadding" />

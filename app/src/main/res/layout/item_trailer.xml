@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/ll_item_trailer"
+    android:background="@drawable/trailer_selctable"
     android:layout_height="match_parent"
     android:orientation="horizontal">
     <TextView
@@ -11,6 +12,7 @@
         android:drawableLeft="@mipmap/ic_play_trailer"
         android:drawablePadding="@dimen/drawablePadding"
         android:gravity="center_vertical"
+        android:textColor="@color/textColor"
         android:padding="@dimen/basePadding"
         android:textSize="@dimen/bodyText" />
 </LinearLayout>

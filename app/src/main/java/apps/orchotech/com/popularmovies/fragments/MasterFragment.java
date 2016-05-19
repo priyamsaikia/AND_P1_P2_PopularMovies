@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -75,7 +76,7 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
             if (arrayList.size() > 0)
                 recyclerView.setAdapter(new GridLayoutAdapter(getActivity(), arrayList, mIsTwoPane));
             else {
-
+                Toast.makeText(getActivity(),"You do not have any favourites yet!",Toast.LENGTH_SHORT).show();
             }
         } else {
             String url = String.format(AppConstants.REQUEST_URL, preference);

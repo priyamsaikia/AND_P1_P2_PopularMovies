@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">32dp</dimen>
+    <dimen name="activity_vertical_margin">32dp</dimen>
+    <dimen name="fab_margin">32dp</dimen>
+    <dimen name="detail_heading">64dp</dimen>
+    <dimen name="basePadding">32dp</dimen>
+    <dimen name="bodyText">32dp</dimen>
+    <dimen name="drawablePadding">16dp</dimen>
+    <dimen name="minOverviewHeight">192dp</dimen>
+    <dimen name="minReviewListHeight">96dp</dimen>
+    <dimen name="cardItemMargin">16dp</dimen>
+    <dimen name="imv_H">340dp</dimen>
+    <dimen name="imv_W">250dp</dimen>
+</resources>

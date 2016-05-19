@@ -1,5 +1,6 @@
 package apps.orchotech.com.popularmovies.activities;
 
+import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;

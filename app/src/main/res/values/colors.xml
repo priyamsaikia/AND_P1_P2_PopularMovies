@@ -2,8 +2,9 @@
 <resources>
     <color name="colorPrimary">#616161</color>
     <color name="colorPrimaryDark">#212121</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#C62828</color>
     <color name="detail_title_background">#009688</color>
     <color name="banner_end_color">@color/colorAccent</color>
     <color name="recycler_bg">@color/colorAccent</color>
+    <color name="textColor">@android:color/white</color>
 </resources>
