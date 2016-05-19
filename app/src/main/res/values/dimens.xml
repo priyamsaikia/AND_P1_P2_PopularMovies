@@ -9,4 +9,5 @@
     <dimen name="drawablePadding">8dp</dimen>
     <dimen name="minOverviewHeight">96dp</dimen>
     <dimen name="minReviewListHeight">48dp</dimen>
+    <dimen name="cardItemMargin">8dp</dimen>
 </resources>

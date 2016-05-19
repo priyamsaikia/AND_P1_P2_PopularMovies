@@ -25,8 +25,11 @@
             android:name=".activities.DetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.MovieListActivity" />
-        <activity android:name=".activities.FavouritesActivity" />
+        <activity android:name=".activities.TrailerReviewsActivity" />
+
+        <provider
+            android:name=".data.AppContentProvider"
+            android:authorities="apps.orchotech.com.popularmovies" />
     </application>
 
 </manifest>

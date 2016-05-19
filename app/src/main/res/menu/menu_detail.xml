@@ -2,12 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_fav"
-        android:icon="@drawable/ic_action_star"
-        android:orderInCategory="0"
-        android:title="@string/favourites"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/menu_share"
         android:icon="@android:drawable/ic_menu_share"
         android:title="@string/share_trailer"

@@ -19,7 +19,7 @@ public class AppConstants {
     public static final String PREF_FAVOURITES = "preference_favourites";
     public static final String TAG = "TAG";
     public static final String BASE_URL = "http://api.themoviedb.org/3/movie/%s/";
-    public static final int TRAILER_REQUEST_ID = 003;
+    public static final int TRAILER_REQUEST_ID = 004;
     public static String API_LINK = "?api_key=" + PrivateConstants.API_KEY;
     public static String TRAILER_LINKS = BASE_URL + "videos" + API_LINK;
     public static String REVIEW_LINKS = BASE_URL + "reviews" + API_LINK;

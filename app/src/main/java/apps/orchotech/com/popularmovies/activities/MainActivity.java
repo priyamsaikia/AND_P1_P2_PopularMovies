@@ -9,11 +9,12 @@ import android.view.MenuItem;
 
 import apps.orchotech.com.popularmovies.BaseActivity;
 import apps.orchotech.com.popularmovies.R;
+import apps.orchotech.com.popularmovies.adapters.StaggeredListAdapter;
 import apps.orchotech.com.popularmovies.fragments.DetailFragment;
 import apps.orchotech.com.popularmovies.fragments.MasterFragment;
 import apps.orchotech.com.popularmovies.utils.AppConstants;
 
-public class MainActivity extends BaseActivity implements MasterFragment.CallBack {
+public class MainActivity extends BaseActivity implements StaggeredListAdapter.CallBack {
     Boolean mIsTwoPane;
 
     @Override
@@ -48,11 +49,6 @@ public class MainActivity extends BaseActivity implements MasterFragment.CallBac
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
-        if (id == R.id.menu_favourites) {
-            startActivity(new Intent(this, FavouritesActivity.class));
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

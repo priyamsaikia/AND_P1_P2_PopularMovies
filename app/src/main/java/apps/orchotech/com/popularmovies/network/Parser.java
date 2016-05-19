@@ -50,10 +50,12 @@ public class Parser {
                 JSONObject object = array.getJSONObject(i);
                 String id = object.getString("id");
                 String poster_path = object.getString("poster_path");
+                String name = object.getString("title");
 
                 AllMoviesBean bean = new AllMoviesBean();
                 bean.setId(id);
                 bean.setPoster_link(poster_path);
+                bean.setName(name);
 
                 allMoviesBeen.add(bean);
 
