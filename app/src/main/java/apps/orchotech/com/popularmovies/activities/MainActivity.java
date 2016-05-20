@@ -3,6 +3,7 @@ package apps.orchotech.com.popularmovies.activities;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import apps.orchotech.com.popularmovies.utils.AppConstants;
 
 public class MainActivity extends BaseActivity implements GridLayoutAdapter.CallBack {
     public Boolean mIsTwoPane;
+    public String mPersistMovieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +60,11 @@ public class MainActivity extends BaseActivity implements GridLayoutAdapter.Call
 
     @Override
     public void onItemSelected(int position, String movieId) {
+        mPersistMovieId = movieId;
+
         if (mIsTwoPane) {
             Bundle b = new Bundle();
-            b.putString(AppConstants.MOVIE_ID, movieId);
+            b.putString(AppConstants.MOVIE_ID, mPersistMovieId);
             b.putBoolean(AppConstants.IS_TWO_PANE, mIsTwoPane);
             DetailFragment f = new DetailFragment();
             f.setArguments(b);
@@ -71,8 +75,20 @@ public class MainActivity extends BaseActivity implements GridLayoutAdapter.Call
             //startActivity with data
             Intent intent = new Intent(this, DetailsActivity.class);
             intent.putExtra(AppConstants.IS_TWO_PANE, mIsTwoPane);
-            intent.putExtra(AppConstants.MOVIE_ID, movieId);
+            intent.putExtra(AppConstants.MOVIE_ID, mPersistMovieId);
             startActivity(intent);
         }
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+//        outState.putString(AppConstants.ITEM_SELECTED_POSITION, mPersistMovieId);
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        mPersistMovieId = savedInstanceState.getString(AppConstants.ITEM_SELECTED_POSITION);
+//    }
 }

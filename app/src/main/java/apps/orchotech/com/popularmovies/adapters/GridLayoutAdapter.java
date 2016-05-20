@@ -32,29 +32,21 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Fa
     ArrayList<?> mArrayList;
     Object mObj;
 
-    public GridLayoutAdapter(Context context, ArrayList<?> arrayList, boolean isTwoPane) {
+    public GridLayoutAdapter(Context context, ArrayList<?> arrayList) {
         mContext = context;
         mArrayList = arrayList;
         mObj = arrayList.get(0);
-        //todo: check
-        //selecting the first item at initialisation time.
-        if (isTwoPane) {
-            if (mObj instanceof AllMoviesBean)
-                ((CallBack) mContext).onItemSelected(0, ((AllMoviesBean) mObj).getId());
-        }
     }
 
     @Override
     public FavouritesListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.staggered_item_trailer_list, null);
-        Log.i(TAG,"onCreateFavViewHolder");
         return new FavouritesListViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(FavouritesListViewHolder holder, final int position) {
         if (mObj instanceof PopularMoviesBean) {
-            Log.i(TAG,"instance on PopularMoviesBean");
             final PopularMoviesBean item = (PopularMoviesBean) (mArrayList.get(position));
             ImageLoader imageLoader = new ImageLoader();
             imageLoader.loadImage(mContext, item.getPoster_path(), holder.imv_item_trailer);
@@ -68,12 +60,10 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Fa
                 }
             });
         } else if (mObj instanceof ReviewsBean) {
-            Log.i(TAG,"instance of ReviewsBean");
             ReviewsBean reviewsBean = (ReviewsBean) mArrayList.get(position);
             holder.tv_trailer_name.setText(reviewsBean.getContent());
             holder.imv_item_trailer.setVisibility(View.GONE);
         } else if (mObj instanceof AllMoviesBean) {
-            Log.i(TAG,"instance of AllMoviesBean");
             final AllMoviesBean bean = (AllMoviesBean) mArrayList.get(position);
             ImageLoader imageLoader = new ImageLoader();
             imageLoader.loadImage(mContext, bean.getPoster_link(), holder.imv_item_trailer);
@@ -84,8 +74,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Fa
                     ((CallBack) mContext).onItemSelected(position, bean.getId());
                 }
             });
-        }else{
-            Log.i(TAG,"instance of no bean");
+        } else {
         }
     }
 

@@ -82,7 +82,7 @@ public class TrailerReviewsActivity extends AppCompatActivity implements MyConne
         if (requestId == AppConstants.REVIEW_REQUEST_ID) {
             ArrayList<ReviewsBean> reviewList = parser.parseAllReviews(response);
             recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-            recyclerView.setAdapter(new GridLayoutAdapter(TrailerReviewsActivity.this,reviewList,false));
+            recyclerView.setAdapter(new GridLayoutAdapter(TrailerReviewsActivity.this, reviewList));
         }
     }
 

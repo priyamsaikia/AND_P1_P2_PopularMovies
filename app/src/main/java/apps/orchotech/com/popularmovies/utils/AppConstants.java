@@ -3,7 +3,7 @@ package apps.orchotech.com.popularmovies.utils;
 /**
  * Created by PriyamSaikia on 14-05-2016.
  */
-public class AppConstants {
+public final class AppConstants {
     public static final String REQUEST_URL = "http://api.themoviedb.org/3/movie/%s?api_key=" + PrivateConstants.API_KEY;
     public static final String BASE_IMAGE_LINK = "http://image.tmdb.org/t/p/w185/";
     public static final int POSTER_REQUEST_ID = 001;
@@ -14,6 +14,7 @@ public class AppConstants {
     public static final String INTENT_LIST_TYPE = "type_of_list";
     public static final String TYPE_TRAILERS = "trailers";
     public static final String IS_TWO_PANE = "is_two_pane";
+    public static final String ITEM_SELECTED_POSITION = "item_selected_position";
     public static String YOUTUBE_LINK = "http://www.youtube.com/watch?v=%s";
     public static final String TRAILER_SHARE_LINK = "Hey! Check out the trailer of %s on " + YOUTUBE_LINK;
     public static final String SETTINGS_KEY = "SortBy";
@@ -26,4 +27,8 @@ public class AppConstants {
     public static String REVIEW_LINKS = BASE_URL + "reviews" + API_LINK;
     public static String INTENT_MOVIE_ID = "intent_movie_id";
     public static String TYPE_REVIEWS = "reviews";
+
+    private AppConstants(){
+        //disabling instantiation
+    }
 }

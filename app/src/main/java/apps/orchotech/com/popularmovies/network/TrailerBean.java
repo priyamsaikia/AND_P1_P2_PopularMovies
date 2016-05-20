@@ -1,9 +1,14 @@
 package apps.orchotech.com.popularmovies.network;
 
+import java.io.Serializable;
+
 /**
  * Created by PriyamSaikia on 15-05-2016.
  */
-public class TrailerBean {
+public class TrailerBean implements Serializable{
+    public TrailerBean(){
+
+    }
     String id, name;
     String key, site, type;
 

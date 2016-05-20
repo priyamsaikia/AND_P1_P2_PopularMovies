@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import apps.orchotech.com.popularmovies.R;
-import apps.orchotech.com.popularmovies.activities.MainActivity;
 import apps.orchotech.com.popularmovies.adapters.GridLayoutAdapter;
 import apps.orchotech.com.popularmovies.data.MoviesContract;
 import apps.orchotech.com.popularmovies.network.AllMoviesBean;
@@ -34,24 +32,26 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     private static final String TAG = MasterFragment.class.getSimpleName();
-    private Boolean mIsTwoPane;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mIsTwoPane = ((MainActivity) getActivity()).mIsTwoPane;
-        loadMovies();
-    }
+    private String pesistMovieId;
+    private Bundle nullInstance;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        nullInstance = savedInstanceState;
         View view = inflater.inflate(R.layout.recycler_view, container, false);
         ButterKnife.bind(this, view);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-//        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         setHasOptionsMenu(false);
+        if (savedInstanceState != null)
+            pesistMovieId = savedInstanceState.getString(AppConstants.ITEM_SELECTED_POSITION);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadMovies();
     }
 
     private void loadMovies() {
@@ -73,10 +73,10 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
                 } while (cursor.moveToNext());
             }
             cursor.close();
-            if (arrayList.size() > 0)
-                recyclerView.setAdapter(new GridLayoutAdapter(getActivity(), arrayList, mIsTwoPane));
-            else {
-                Toast.makeText(getActivity(),"You do not have any favourites yet!",Toast.LENGTH_SHORT).show();
+            if (arrayList.size() > 0) {
+                recyclerView.setAdapter(new GridLayoutAdapter(getActivity(), arrayList));
+            } else {
+                Toast.makeText(getActivity(), "You do not have any favourites yet!", Toast.LENGTH_SHORT).show();
             }
         } else {
             String url = String.format(AppConstants.REQUEST_URL, preference);
@@ -86,23 +86,30 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
 
     @Override
     public void onSuccess(String response, int requestId) {
-        Log.i(TAG, "onSuccess");
         if (!isAdded())
             return;
         Parser parser = new Parser();
         final ArrayList<AllMoviesBean> arrayList = parser.parseAllMovies(response);
-//        if (arrayList.size() > 0)
-        recyclerView.invalidate();
-        recyclerView.setAdapter(new GridLayoutAdapter(getActivity(), arrayList, mIsTwoPane));
-        Log.i(TAG, "onSuccess-Setting Adapter");
-//        else {
-//            //todo: zero state
-//        }
+        if (arrayList.size() > 0) {
+            recyclerView.invalidate();
+            if (nullInstance == null)
+                ((GridLayoutAdapter.CallBack) getActivity()).onItemSelected(0, arrayList.get(0).getId());
+            recyclerView.setAdapter(new GridLayoutAdapter(getActivity(), arrayList));
+        } else {
+            //todo: zero state
+        }
+
     }
 
     @Override
     public void onFailure(String error, int requestId) {
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(AppConstants.ITEM_SELECTED_POSITION, pesistMovieId);
     }
 
 }

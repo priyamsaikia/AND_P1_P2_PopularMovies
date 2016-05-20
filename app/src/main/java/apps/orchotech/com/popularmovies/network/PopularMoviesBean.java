@@ -1,9 +1,11 @@
 package apps.orchotech.com.popularmovies.network;
 
+import java.io.Serializable;
+
 /**
  * Created by PriyamSaikia on 15-05-2016.
  */
-public class PopularMoviesBean {
+public class PopularMoviesBean implements Serializable {
     String poster_path;
     String overview;
     String release_date;
@@ -11,6 +13,10 @@ public class PopularMoviesBean {
     String title;
     String backdrop_path;
     String vote_average;
+
+    public PopularMoviesBean() {
+
+    }
 
     public String getRuntime() {
         return runtime;

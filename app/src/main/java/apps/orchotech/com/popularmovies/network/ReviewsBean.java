@@ -1,10 +1,17 @@
 package apps.orchotech.com.popularmovies.network;
 
+import java.io.Serializable;
+
 /**
  * Created by PriyamSaikia on 16-05-2016.
  */
-public class ReviewsBean {
-    String id,author,content;
+public class ReviewsBean implements Serializable {
+
+    String id, author, content;
+
+    public ReviewsBean() {
+
+    }
 
     public String getId() {
         return id;

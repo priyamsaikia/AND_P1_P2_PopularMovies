@@ -1,11 +1,17 @@
 package apps.orchotech.com.popularmovies.network;
 
+import java.io.Serializable;
+
 /**
  * Created by PriyamSaikia on 15-05-2016.
  */
-public class AllMoviesBean {
+public class AllMoviesBean implements Serializable {
     String id;
     String poster_link;
+
+    public AllMoviesBean() {
+
+    }
 
     public String getName() {
         return name;
