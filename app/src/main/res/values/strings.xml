@@ -21,6 +21,8 @@
     <string name="popular_entry">popular</string>
     <string name="top_movies_entry">top_rated</string>
     <string name="favourites_entry">favourites</string>
+    <string name="no_send_intent_handler">Ohho! You don\'t seem to have the required apps to share it!</string>
+    <string name="deleted_favourite">Movie has been removed from favourites</string>
     <array name="settings_array_logic">
         <item>@string/popular_entry</item>
         <item>@string/top_movies_entry</item>

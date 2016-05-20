@@ -92,7 +92,8 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
         final ArrayList<AllMoviesBean> arrayList = parser.parseAllMovies(response);
         if (arrayList.size() > 0) {
             recyclerView.invalidate();
-            if (nullInstance == null)
+            //when loaded for first time, it changes to 1st id
+            if (nullInstance == null && (getActivity().findViewById(R.id.fragment_detail) != null))
                 ((GridLayoutAdapter.CallBack) getActivity()).onItemSelected(0, arrayList.get(0).getId());
             recyclerView.setAdapter(new GridLayoutAdapter(getActivity(), arrayList));
         } else {
@@ -111,5 +112,4 @@ public class MasterFragment extends Fragment implements MyConnection.IMyConnecti
         super.onSaveInstanceState(outState);
         outState.putString(AppConstants.ITEM_SELECTED_POSITION, pesistMovieId);
     }
-
 }

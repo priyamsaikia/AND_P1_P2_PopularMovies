@@ -10,7 +10,7 @@ import apps.orchotech.com.popularmovies.R;
 /**
  * Created by PriyamSaikia on 15-05-2016.
  */
-public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
+public class SettingsActivity extends AppCompatPreferenceActivity implements Preference.OnPreferenceChangeListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

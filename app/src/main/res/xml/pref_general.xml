@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
         android:title="@string/settings_title"
-        android:defaultValue="@string/settings_option_one"
+        android:defaultValue="@string/top_movies_entry"
         android:entries="@array/settings_array_options"
         android:entryValues="@array/settings_array_logic"
         android:key="@string/settings_key_sort_by" />

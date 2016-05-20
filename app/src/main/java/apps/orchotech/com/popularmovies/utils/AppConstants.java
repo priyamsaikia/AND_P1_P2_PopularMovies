@@ -27,6 +27,7 @@ public final class AppConstants {
     public static String REVIEW_LINKS = BASE_URL + "reviews" + API_LINK;
     public static String INTENT_MOVIE_ID = "intent_movie_id";
     public static String TYPE_REVIEWS = "reviews";
+    public static String SAVED_BUNDLE_PANE_MODE = "reviews";
 
     private AppConstants(){
         //disabling instantiation

@@ -94,7 +94,7 @@ public class AppContentProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
-                retCursor.setNotificationUri(getContext().getContentResolver(),uri);
+                retCursor.setNotificationUri(getContext().getContentResolver(), uri);
                 return retCursor;
             }
             default: {
@@ -166,7 +166,13 @@ public class AppContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db = new MoviesDBHelper(getContext()).getWritableDatabase();
+        int rowDeleted = db.delete(MoviesContract.FavouritesEntry.TABLE_NAME, selection, selectionArgs);
+
+        if (rowDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowDeleted;
     }
 
     @Override

@@ -71,12 +71,15 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
     CardView cardview_reviews;
     @Bind(R.id.cardview_trailer)
     CardView cardview_trailer;
+    @Bind(R.id.btn_fav)
+    ImageView imv_fav;
 
     private String mMovieId;
     private PopularMoviesBean details;
     String mFirstVideoShareLink;
     String mMovieName;
     private String mIsTwoPane;
+    private boolean isAFavourite;
 
     @Nullable
     @Override
@@ -84,11 +87,24 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
         if (getArguments() != null)
             mMovieId = getArguments().getString(AppConstants.MOVIE_ID);
         else mMovieId = "";
-        mIsTwoPane=getArguments().getString(AppConstants.IS_TWO_PANE);
+        mIsTwoPane = getArguments().getString(AppConstants.IS_TWO_PANE);
         View view = inflater.inflate(R.layout.detail_layout, container, false);
         ButterKnife.bind(this, view);
+        isAFavourite = false;
 
         setHasOptionsMenu(true);
+        Cursor c = getActivity().getContentResolver().query(MoviesContract.FavouritesEntry.CONTENT_URI_FAVOURITES_ENTRY,
+                new String[]{MoviesContract.FavouritesEntry.COLUMN_MOVIE_ID},
+                MoviesContract.FavouritesEntry.COLUMN_MOVIE_ID + "=?", new String[]{mMovieId}, null, null);
+        if (c.moveToFirst()) {
+            do {
+                if (mMovieId.equals(c.getString(c.getColumnIndex(MoviesContract.FavouritesEntry.COLUMN_MOVIE_ID)))) {
+                    isAFavourite = true;
+                    imv_fav.setImageResource(R.mipmap.ic_already_favourite);
+                }
+
+            } while (c.moveToNext());
+        }
 
         return view;
     }
@@ -108,7 +124,12 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT,
                         String.format(AppConstants.TRAILER_SHARE_LINK, mMovieName, mFirstVideoShareLink));
-                getActivity().startActivity(intent);
+
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    getActivity().startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), R.string.no_send_intent_handler, Toast.LENGTH_SHORT).show();
+                }
             }
 
             return true;
@@ -122,28 +143,41 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
     }
 
     private void saveAsFavourite() {
-        if (details != null) {
-            SQLiteDatabase sqLiteDatabase = new MoviesDBHelper(getActivity()).getWritableDatabase();
+        if (!isAFavourite) {
+            if (details != null) {
+                SQLiteDatabase sqLiteDatabase = new MoviesDBHelper(getActivity()).getWritableDatabase();
 
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_MOVIE_ID, details.getId());
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_MOVIE_NAME, details.getTitle());
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_OVERVIEW, details.getOverview());
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_RELEASE_DATE, details.getRelease_date());
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_VOTE_AVERAGE, details.getVote_average());
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_RUN_TIME, details.getRuntime());
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_POSTER_LINK, details.getPoster_path());
-            contentValues.put(MoviesContract.FavouritesEntry.COLUMN_BANNER_LINK, details.getBackdrop_path());
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_MOVIE_ID, details.getId());
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_MOVIE_NAME, details.getTitle());
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_OVERVIEW, details.getOverview());
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_RELEASE_DATE, details.getRelease_date());
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_VOTE_AVERAGE, details.getVote_average());
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_RUN_TIME, details.getRuntime());
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_POSTER_LINK, details.getPoster_path());
+                contentValues.put(MoviesContract.FavouritesEntry.COLUMN_BANNER_LINK, details.getBackdrop_path());
 
-            Uri result = getActivity().getContentResolver().insert(MoviesContract.FavouritesEntry.CONTENT_URI_FAVOURITES_ENTRY, contentValues);
+                Uri result = getActivity().getContentResolver().insert(MoviesContract.FavouritesEntry.CONTENT_URI_FAVOURITES_ENTRY, contentValues);
 
 //            long insertResult = sqLiteDatabase.insert(MoviesContract.FavouritesEntry.TABLE_NAME, null, contentValues);
-            if (result == null)
-                Toast.makeText(getActivity(), R.string.already_favourite, Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(getActivity(), R.string.added_favourite, Toast.LENGTH_SHORT).show();
+                if (result == null)
+                    Toast.makeText(getActivity(), R.string.already_favourite, Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getActivity(), R.string.added_favourite, Toast.LENGTH_SHORT).show();
+                    imv_fav.setImageResource(R.mipmap.ic_already_favourite);
+                }
+            } else {
+                Toast.makeText(getActivity(), R.string.try_again, Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(getActivity(), R.string.try_again, Toast.LENGTH_SHORT).show();
+            int deleteResult = getActivity().getContentResolver().delete(MoviesContract.FavouritesEntry.CONTENT_URI_FAVOURITES_ENTRY,
+                    MoviesContract.FavouritesEntry.COLUMN_MOVIE_ID + "=?", new String[]{mMovieId});
+            if (deleteResult == 0) {
+                Toast.makeText(getActivity(), R.string.try_again, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), R.string.deleted_favourite, Toast.LENGTH_SHORT).show();
+                imv_fav.setImageResource(R.mipmap.ic_star);
+            }
         }
     }
 
@@ -186,8 +220,7 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
         if (requestId == AppConstants.DETAIL_REQUEST_ID) {
             details = parser.parseMovieDetails(response);
             setData(details);
-        }
-        else if (requestId == AppConstants.TRAILER_REQUEST_ID) {
+        } else if (requestId == AppConstants.TRAILER_REQUEST_ID) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 ArrayList<TrailerBean> trailerList = parser.parseAllTrailers(jsonObject.getString("results"));
@@ -207,8 +240,7 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        else if (requestId == AppConstants.REVIEW_REQUEST_ID) {
+        } else if (requestId == AppConstants.REVIEW_REQUEST_ID) {
             //todo: check adding multiple views
             ArrayList<ReviewsBean> reviewList = parser.parseAllReviews(response);
             if (reviewList.size() > 0) {
