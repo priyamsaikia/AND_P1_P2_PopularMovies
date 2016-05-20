@@ -165,6 +165,7 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
                 else {
                     Toast.makeText(getActivity(), R.string.added_favourite, Toast.LENGTH_SHORT).show();
                     imv_fav.setImageResource(R.mipmap.ic_already_favourite);
+                    isAFavourite = true;
                 }
             } else {
                 Toast.makeText(getActivity(), R.string.try_again, Toast.LENGTH_SHORT).show();
@@ -177,6 +178,7 @@ public class DetailFragment extends Fragment implements MyConnection.IMyConnecti
             } else {
                 Toast.makeText(getActivity(), R.string.deleted_favourite, Toast.LENGTH_SHORT).show();
                 imv_fav.setImageResource(R.mipmap.ic_star);
+                isAFavourite = false;
             }
         }
     }
