@@ -1,7 +1,5 @@
 # PopularMovies
-An Android App that shows us the list of Popular Movies & shows us the details about each movie (P2 of Nanodegree) 
-
-This project has been completed as a part of Android Nanodegree program.
+P1 & P2 Android Nanodegree
 
 Features:
 
@@ -33,3 +31,5 @@ e)The details screen also lets us read Reviews and view Trailers of the movie.
 
 f) uses themoviedb.org web API for fetching movie data
 
+
+This project has been completed as a part of Android Nanodegree program.
